@@ -10,7 +10,8 @@ SRC= \
 	twisted-app/app.py
 
 
-default: pep8 tests
+default: all
+all: pep8 tests
 
 tests:
 	@( for FILE in ${SRC}; do \
