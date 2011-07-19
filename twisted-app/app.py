@@ -21,6 +21,7 @@ from zope.interface import implements
 
 from scrapyd.webservice import WsResource
 
+
 class Procmon(WsResource):
 	
 	def render_GET(self, txrequest):
@@ -31,7 +32,7 @@ class Procmon(WsResource):
 				'spider' : p.spider,
 				'job' : p.job,  
 			})
-			
+		
 		return {
 			"status" : "ok", 
 			"processes" : processes, 
@@ -39,26 +40,27 @@ class Procmon(WsResource):
 
 
 class LittleExtention(Root):
+	
 	def __init__(self, app, config):
 		Root.__init__(self, app, config)
 		
 		self.putChild('procmon.json', Procmon(self))
-		
+
 
 class PublicHTMLRealm(object):
-    implements(IRealm)
-    
-    def __init__(self, config, app):
-    	super(PublicHTMLRealm, self).__init__()
-    	
-    	self.config = config
-    	self.app = app
+	implements(IRealm)
+	
+	def __init__(self, config, app):
+		super(PublicHTMLRealm, self).__init__()
+		
+		self.config = config
+		self.app = app
 
-
-    def requestAvatar(self, avatarId, mind, *interfaces):
-        if IResource in interfaces:
-            return (IResource, LittleExtention(self.config, self.app), lambda: None)
-        raise NotImplementedError()
+	def requestAvatar(self, avatarId, mind, *interfaces):
+		if IResource in interfaces:
+			return (IResource, LittleExtention(self.config, self.app), lambda: None)
+		
+		raise NotImplementedError()
 
 
 def application(config):

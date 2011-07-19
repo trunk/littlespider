@@ -6,6 +6,8 @@ SRC= \
 	littlespider/spiders/meta.py \
 	\
 	littlespider/settings.py \
+	\
+	twisted-app/app.py
 
 
 default: pep8 tests
